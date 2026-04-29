@@ -1,0 +1,67 @@
+<div class="merge-container">
+  <div class="upload-section">
+    <div class="upload-group">
+      <label for="image1">Image 1:</label>
+      <input 
+        type="file" 
+        id="image1" 
+        accept="image/*"
+        (change)="onImageSelected($event, 'image1')"
+      />
+      <div class="preview" *ngIf="image1Preview">
+        <img [src]="image1Preview" alt="Image 1 Preview">
+        <p>Image 1</p>
+      </div>
+    </div>
+
+    <div class="upload-group">
+      <label for="image2">Image 2:</label>
+      <input 
+        type="file" 
+        id="image2" 
+        accept="image/*"
+        (change)="onImageSelected($event, 'image2')"
+      />
+      <div class="preview" *ngIf="image2Preview">
+        <img [src]="image2Preview" alt="Image 2 Preview">
+        <p>Image 2</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-section">
+    <div class="merge-options">
+      <label for="merge-mode">Merge Mode:</label>
+      <select 
+        id="merge-mode"
+        [(ngModel)]="mergeMode"
+        class="merge-dropdown"
+      >
+        <option value="average">Average (Blend)</option>
+        <option value="doubleExposure">Double Exposure</option>
+      </select>
+    </div>
+    <button 
+      (click)="mergeImages()"
+      [disabled]="!image1Preview || !image2Preview || isMerging"
+      class="merge-button"
+    >
+      {{ isMerging ? 'Merging...' : 'Merge Images' }}
+    </button>
+  </div>
+
+  <div class="result-section" *ngIf="mergedImageData">
+    <h2>Merged Result</h2>
+    <div class="result-info">
+      <p>Merged images by averaging pixel values</p>
+    </div>
+    <canvas 
+      #mergedCanvas 
+      class="merged-canvas"
+    ></canvas>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

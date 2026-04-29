@@ -1,0 +1,144 @@
+.merge-container {
+  padding: 2rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.upload-section {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.upload-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.preview {
+  text-align: center;
+}
+
+.preview img {
+  max-width: 200px;
+  max-height: 200px;
+  border: 2px solid #333;
+  border-radius: 4px;
+}
+
+.preview p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.button-section {
+  text-align: center;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.merge-options {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.merge-options label {
+  margin: 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.merge-dropdown {
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+}
+
+.merge-dropdown:hover {
+  border-color: #007bff;
+}
+
+.merge-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.merge-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.merge-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.merge-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.result-section {
+  margin-top: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.result-section h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.result-info {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.merged-canvas {
+  max-width: 100%;
+  border: 2px solid #333;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
+}
+
+.error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
