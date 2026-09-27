@@ -16,6 +16,7 @@ export class ImageMergeComponent {
   isMerging = false;
   errorMessage: string | null = null;
   mergeMode: 'average' | 'doubleExposure' = 'average';
+  appliedMergeMode: 'average' | 'doubleExposure' = 'average';
 
   private image1Data: ImageData | null = null;
   private image2Data: ImageData | null = null;
@@ -68,6 +69,7 @@ export class ImageMergeComponent {
       try {
         const merged = this.performPixelMerge(this.mergeMode);
         this.mergedImageData = merged;
+        this.appliedMergeMode = this.mergeMode;
         this.displayMergedImage();
         this.isMerging = false;
       } catch (error) {

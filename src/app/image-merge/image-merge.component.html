@@ -53,7 +53,7 @@
   <div class="result-section" *ngIf="mergedImageData">
     <h2>Merged Result</h2>
     <div class="result-info">
-      <p>Merged images by averaging pixel values</p>
+      <p>{{ appliedMergeMode === 'average' ? 'Merged images by averaging pixel values' : 'Merged images using a double exposure (screen) blend' }}</p>
     </div>
     <canvas 
       #mergedCanvas 

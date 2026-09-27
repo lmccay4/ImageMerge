@@ -1,66 +1,101 @@
 # Image Merge
 
-An Angular web application that merges two images pixel by pixel by averaging their RGB values.
+A small Angular 18 web app that blends two images together pixel by pixel, entirely in the browser using the Canvas API. No images are uploaded to a server.
 
 ## Features
 
-- Upload two images via file input
-- Preview selected images
-- Merge images by averaging pixel values
-- Automatically scales images to match dimensions
-- Display merged result in the browser
+- Select two images from your computer and preview them
+- Choose a merge mode:
+  - **Average (Blend)**: each pixel is the mean of the two source pixels
+  - **Double Exposure**: a "screen" blend, like a double-exposed photo, where light areas add together and dark areas stay dark
+- If the second image is a different size, it is scaled to match the first
+- The merged result is shown on a canvas (right-click it to save it as an image)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
+- [Node.js](https://nodejs.org/) 18.19 or newer
 - npm
 
-### Installation
+### Install
 
-1. Install dependencies:
 ```bash
 npm install
 ```
 
-### Development Server
+### Run the development server
 
-Run the development server:
 ```bash
 npm start
 ```
 
-Navigate to `http://localhost:4200/`. The application will automatically reload if you change any source files.
+Open http://localhost:4200/. The app reloads automatically when you change a source file.
 
-### Build
+In VS Code, you can also run the **Start Development Server** task (the default build task, `Cmd+Shift+B` / `Ctrl+Shift+B`).
 
-Build the project for production:
+### Build for production
+
 ```bash
 npm run build
 ```
 
-The build artifacts will be stored in the `dist/` directory.
+The output goes to `dist/`. It is a static site, so you can host it on any static file server.
+
+### Available scripts
+
+| Command         | Description                                      |
+| --------------- | ------------------------------------------------ |
+| `npm start`     | Start the dev server (`ng serve`)                |
+| `npm run build` | Build for production (`ng build`)                |
+| `npm run watch` | Rebuild on changes using the development config  |
 
 ## Usage
 
-1. Open the application in your browser
-2. Click "Image 1" to select the first image
-3. Click "Image 2" to select the second image
-4. Click the "Merge Images" button
-5. View the merged result below
+1. Choose a file for **Image 1**. Its dimensions set the size of the output.
+2. Choose a file for **Image 2**.
+3. Pick a **Merge Mode**.
+4. Click **Merge Images**.
+5. The result appears under **Merged Result**.
 
 ## How It Works
 
-The merger works by:
-1. Loading both images as ImageData objects from canvas
-2. If images have different dimensions, the second image is scaled to match the first
-3. Iterating through each pixel's RGBA values
-4. Averaging the red, green, blue, and alpha channels between the two images
-5. Displaying the result on a canvas
+All of the logic is in [`image-merge.component.ts`](src/app/image-merge/image-merge.component.ts):
 
-## Technology Stack
+1. Each selected file is read with `FileReader`, drawn onto an offscreen canvas, and stored as `ImageData`.
+2. When you click merge, Image 2 is scaled to Image 1's width and height if the sizes differ.
+3. The app goes through the RGBA channels of every pixel and combines them:
 
-- Angular 18
-- TypeScript
-- Canvas API
+   | Mode            | RGB formula                                   | Alpha           |
+   | --------------- | --------------------------------------------- | --------------- |
+   | Average         | `(a + b) / 2`                                 | `(a + b) / 2`   |
+   | Double Exposure | `255 - ((255 - a) * (255 - b)) / 255`         | `(a + b) / 2`   |
+
+4. The resulting `ImageData` is drawn onto the result canvas.
+
+## Project Structure
+
+```
+src/
+├── index.html
+├── main.ts                      # Starts the standalone AppComponent
+├── styles.scss                  # Global styles
+└── app/
+    ├── app.component.ts         # Page shell and title
+    └── image-merge/
+        ├── image-merge.component.ts    # File loading and merge logic
+        ├── image-merge.component.html  # Upload, mode picker, result canvas
+        └── image-merge.component.css
+```
+
+## Adding a Merge Mode
+
+1. Add the new mode name to the `mergeMode` type (and the `performPixelMerge` parameter type) in `image-merge.component.ts`.
+2. Add a branch for it in the pixel loop inside `performPixelMerge`.
+3. Add an `<option>` for it to the `#merge-mode` dropdown in `image-merge.component.html`.
+
+## Tech Stack
+
+- Angular 18 (standalone components)
+- TypeScript 5.4
+- HTML Canvas API
